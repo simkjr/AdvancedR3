@@ -32,3 +32,18 @@ create_plot_distributions <- function(data) {
     ggplot2::facet_wrap(ggplot2::vars(metabolite), scales = "free") +
     ggplot2::theme_minimal()
 }
+
+#' Cleaning of data (1 variable to have 1 mean value)
+#'
+#' @param data #The lipidomics data
+#'
+#' @returns A data frame
+#' #export
+#'
+#' #examples
+clean <- function(data){
+  data |>
+    dplyr::group_by(dplyr::pick(-value)) |>
+    dplyr::summarise(value = mean(value), .groups = "keep") |>
+    dplyr::ungroup()
+}
