@@ -47,3 +47,44 @@ clean <- function(data){
     dplyr::summarise(value = mean(value), .groups = "keep") |>
     dplyr::ungroup()
 }
+
+#' Preprocessiing data
+#'
+#' @param data Lipodomics
+#'
+#' @returns A data frame
+#' #export
+#'
+#' #examples
+preprocess <- function(data){
+  data |>
+    dplyr::mutate(
+      class = as.factor(class),
+      value = scale(value)
+    )
+}
+
+#' Applying GLM to all metabolite data
+#'
+#' @param data # Metabolite column
+#' @param model #GLM
+#'
+#' @returns # Model output
+#' #export
+#'
+#' #examples
+fit_model <- function(data, model) {
+  glm(
+    formula = model,
+    data = data,
+    family = binomial
+  ) |>
+    broom::tidy(exponentiate = TRUE) |>
+    mutate(
+      metabolite = unique(data$metabolite),
+      model = format(model),
+      .before = everything()
+    )
+}
+
+
