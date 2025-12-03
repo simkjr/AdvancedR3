@@ -80,11 +80,25 @@ fit_model <- function(data, model) {
     family = binomial
   ) |>
     broom::tidy(exponentiate = TRUE) |>
-    mutate(
+    dplyr::mutate(
       metabolite = unique(data$metabolite),
       model = format(model),
       .before = everything()
     )
 }
 
+#' Model results for variable cholesterol
+#'
+#' @param data #Lipidomics
+#'
+#' @returns # Model calcs
+#' #export
+#'
+#' #examples
+create_model_results <- function(data) {
+  data |>
+    dplyr::filter(metabolite == "Cholesterol") |>
+    preprocess() |>
+    fit_model(class ~ value)
+}
 

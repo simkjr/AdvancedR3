@@ -52,14 +52,13 @@ clean(lipidomics)
 ## Preprocessing
 
 ```{r}
-preprocess(lipodomics)
+preprocess(lipidomics)
 ```
 
 ```{r}
 just_cholesterol <- lipidomics |>
   dplyr::filter(metabolite == "Cholesterol") |>
   preprocess()
-
 ```
 
 ```{r}
@@ -79,30 +78,20 @@ glm(
 ## Fit model
 
 ```{r}
-#' Applying GLM to all metabolite data
-#'
-#' @param data # Metabolite column
-#' @param model #GLM
-#'
-#' @returns # Model output
-#' #export
-#'
-#' #examples
-fit_model <- function(data, model){
-glm(
-  formula = model,
-  data = data,
-  family = binomial
-) |>
-  broom::tidy(exponentiate = TRUE) |>
-  mutate(
-    metabolite = unique(data$metabolite),
-    model = format(model),
-    .before = everything()
-  )
-}
 
+```
 
+```{r}
+
+```
+
+## Model results
+
+```{r}
+
+```
+
+```{r}
 
 ```
 
