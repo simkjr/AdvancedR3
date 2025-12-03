@@ -39,6 +39,10 @@ tar_read(table_descriptive_stats) |>
 create_plot_distributions(lipidomics)
 ```
 
+```{r}
+tar_read(plot_distributions)
+```
+
 ## This is poorly formatted
 
 -   Definitely should have an empty space above this list.
