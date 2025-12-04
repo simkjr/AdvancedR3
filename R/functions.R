@@ -102,3 +102,19 @@ create_model_results <- function(data) {
     fit_model(class ~ value)
 }
 
+#' Fit all Model
+#'
+#' @param data "Dataframe to fit the model
+#'
+#' @returns # A dataframe with all results from the model
+#' #export
+#'
+#' #examples
+fit_all_models <- function(data) {
+  list(
+    class ~ value,
+    class ~ value + gender + age
+  ) |>
+    purrr::map(\(model) fit_model(data, model = model)) |>
+    purrr::list_rbind()
+}
