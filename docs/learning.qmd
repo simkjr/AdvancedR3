@@ -108,17 +108,38 @@ lipidomics |>
 
 ```{r}
 lipidomics |>
-  dplyr::group_split(metabolite) |> 
+  dplyr::group_split(metabolite) |>
   purrr::map(preprocess) |>
   purrr::map(fit_all_models) |>
   purrr::list_rbind()
+```
+
+## Figure of model estimates
+
+```{r}
+model_results <- tar_read(model_results)
+```
+
+```{r}
+model_results |>
+  dplyr::filter(term == "value", std.error <= 2, estimate <= 5) |>
+  select(metabolite, model, estimate, std.error) |>
+  ggplot(aes(
+    x = estimate,
+    y = metabolite,
+    xmin = estimate - std.error,
+    xmax = estimate + std.error
+  )) +
+  geom_pointrange() +
+  geom_vline(xintercept = 1, linetype = "dashed") +
+  facet_grid(cols = vars(model))
 ```
 
 ## Appendix
 
 ```{r}
 tar_read(model_results) |>
-    knitr::kable(caption = "Results from the analysis from all metabolites and models.")
+  knitr::kable(caption = "Results from the analysis from all metabolites and models.")
 ```
 
 ## This is poorly formatted
